@@ -1,0 +1,24 @@
+{
+  "name": "project-04",
+  "version": "1.0.0",
+  "description": "\"this is my 4th project\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AKAGAWANI/url-shortner-group101.git"
+  },
+  "author": "Anil",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.2",
+    "nodemon": "^2.0.16",
+    "redis": "^3.1.2",
+    "shortid": "^2.2.16",
+    "valid-url": "^1.0.9"
+  }
+}
