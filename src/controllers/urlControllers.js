@@ -42,10 +42,12 @@ const createUrl = async function (req, res) {
     
         const checkUrl_Code = await urlModel.findOne({ urlCode: urlCode})
         if (checkUrl_Code) return res.status(409).send({status: false, message: "urlCode already exist"})
-
-        let url = await GET_ASYNC(`${longUrl}`)
+        let redisUrl = await urlModel.findOne({longUrl: longUrl})
+        if(redisUrl){
+        let urlCode1=redisUrl.urlCode
+        let url = await GET_ASYNC(`${urlCode1}`)
         if (url) return res.status(200).send({status: true,msg:"shortUrl alredy exist in catche", data: JSON.parse(url)})
-
+        }
         let dbUrl = await urlModel.findOne({longUrl: longUrl}).select({ __v: 0, _id: 0, createdAt: 0, updatedAt: 0 })
         if(dbUrl) return res.status(200).send({ status: true,msg:"shortUrl alredy exist in database", data: dbUrl })
         const shortUrl = localurl + '/' + urlCode;
@@ -62,7 +64,7 @@ const createUrl = async function (req, res) {
 const getUrl = async function (req, res) {
     try {
         const url = await GET_ASYNC(`${req.params.urlCode}`);
-        if (url)  return res.redirect({status:true,message:"success",data:JSON.parse(url)})
+        if (url)  return res.status(200).send({status:true,message:"success",catchedData:JSON.parse(url)})
          else {
             let findUrl = await urlModel.findOne({ urlCode: req.params.urlCode });
             if (!findUrl) return res.status(404).send({ status: false, message: "Url not found." });
